@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Avatar from "boring-avatars";
 import {
   FaRegCircleXmark,
@@ -8,16 +8,12 @@ import {
   FaPhone,
   FaEnvelope,
 } from "react-icons/fa6";
-
 import Modal from "./modal";
-
 import { User } from "./types/user";
+import {userService} from "@/service";
 
-export type GalleryProps = {
-  users: User[];
-};
-const Gallery = ({ users }: GalleryProps) => {
-  const [usersList, setUsersList] = useState(users);
+const Gallery = () => {
+  const [usersList, setUsersList] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -34,6 +30,13 @@ const Gallery = ({ users }: GalleryProps) => {
     setSelectedUser(null);
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    (async () => {
+      const users = await userService.fetch();
+      setUsersList(() => users);
+    })()
+  }, []);
 
   return (
     <div className="user-gallery">
@@ -59,6 +62,52 @@ const Gallery = ({ users }: GalleryProps) => {
             </div>
           </div>
         ))}
+        {usersList.length === 0 && (
+            <>
+              <div className="item user-card">
+                <div className="body">
+                  <Avatar
+                    size={96}
+                    name="Loading"
+                    variant="pixel"
+                    colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                  />
+                </div>
+                <div className="info">
+                  <div className="name">Loading</div>
+                  <div className="company">Loading</div>
+                </div>
+              </div>
+              <div className="item user-card">
+                <div className="body">
+                  <Avatar
+                    size={96}
+                    name="Loading"
+                    variant="pixel"
+                    colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                  />
+                </div>
+                <div className="info">
+                  <div className="name">Loading</div>
+                  <div className="company">Loading</div>
+                </div>
+              </div>
+              <div className="item user-card">
+                <div className="body">
+                  <Avatar
+                    size={96}
+                    name="Loading"
+                    variant="pixel"
+                    colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                  />
+                </div>
+                <div className="info">
+                  <div className="name">Loading</div>
+                  <div className="company">Loading</div>
+                </div>
+              </div>
+            </>
+        )}
         <Modal isOpen={isModalOpen} onClose={handleModalClose}>
           <div className="user-panel">
             <div className="header">
