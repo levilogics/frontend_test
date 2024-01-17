@@ -91,6 +91,7 @@ const Gallery = ({ users }: GalleryProps) => {
                   <div className="name">
                     {selectedUser.name} ({selectedUser.username})
                   </div>
+                  {/* field is the correct class. */}
                   <div className="field">
                     <FaLocationDot className="icon" />
                     <div className="data">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
